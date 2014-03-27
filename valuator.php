@@ -113,9 +113,5 @@ function valued_stocks($stocks)
     $rez[$tik]['score'] = $score;
   }
   return $rez;
-}
-
-
-?>
-                                                                                                                                                                                                                                    119,1         Bot
+}                                                                                                                                                                                                                                 119,1         Bot
 
