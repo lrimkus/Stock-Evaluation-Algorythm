@@ -1,0 +1,57 @@
+#!/usr/bin/php
+<?php
+include 'valuator.php';
+
+$dt = $argv;
+unset($dt[0]);
+if ($dt[1] == 'dow') //dow
+{
+         $dt = array('MMM', 'AA', 'AXP', 'T', 'BAC', 'BA', 'CAT',
+'CVX', 'CSCO', 'KO', 'DD', 'XOM', 'GE',  'HPQ', 'HD', 'INTC', 'IBM', 'JNJ', 'JPM', 'KFT',
+'MCD', 'MRK', 'MSFT', 'PFE', 'PG', 'TRV', 'UTX', 'VZ', 'WMT', 'DIS');
+}
+if (count($dt) > 0)
+{
+        $dv =
+"+-------+-------+--------------------+-------+-------+------------+---------+---------+---------+---------+\n";
+        print $dv;
+        printf("| %-6s|", 'Tick');          
+        printf(" %-6s|", 'Value');   
+        printf(" %-19s|", 'Company');
+        printf(" %-6s|", 'PE');
+        printf(" %-6s|", "PEG"); 
+        printf(" %-11s|", "*Div Date*");
+        printf(" %-8s|", "50 Avg");
+        printf(" %-8s|", "200 Avg");
+        printf(" %-8s|", "Change");
+        printf(" %-8s|\n", "Price");
+        print $dv;
+        $o = valued_stocks($dt);
+
+        foreach($o as $tick => $obj)
+        {
+                $score[$tick] = $obj['score'];
+        }
+        array_multisort($score, SORT_DESC, $o);
+
+        foreach($o as $k=>$v)
+        {
+                $sc = score($v);
+                if ($v['error'] != 'N/A') { $sc = 'ERROR'; }
+                printf("| %-6s|", $k);
+                printf(" %-6s|", $sc);
+                printf(" %-19s|", $v['name']);
+                printf(" %-6s|", $v['pe']);
+                printf(" %-6s|", $v['peg']);
+                printf(" %-11s|", $v['div_date']);
+                printf(" %-8s|", $v['50_avg']);
+                printf(" %-8s|", $v['200_avg']); 
+                printf(" %-8s|", str_replace("N/A - ", "",$v['change'])); 
+                printf(" %-8s|\n", $v['last_p']); 
+        }
+        print $dv;
+
+}
+else { print "\n\nYou have to add at least some tickers!\n\n"; }        
+
+?>
