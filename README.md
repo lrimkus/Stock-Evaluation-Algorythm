@@ -1,4 +1,4 @@
-Stock-Evaluation-Algorithm
+Stock Valuation Algorithm
 ==========================
 
 Quick and Dirty Stock Valuation Algorithm
